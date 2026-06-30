@@ -1,65 +1,95 @@
-import Image from "next/image";
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import CartDrawer from '@/components/CartDrawer';
+import HeroSection from '@/components/HeroSection';
+import CatalogSection from '@/components/CatalogSection';
+import { db, Product, ProductVariant } from '@/lib/database';
+import { Loader2 } from 'lucide-react';
 
 export default function Home() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [variants, setVariants] = useState<ProductVariant[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  async function loadCatalog() {
+    try {
+      const prods = await db.getProducts();
+      setProducts(prods);
+
+      // Batch-load all variants
+      const allVariants: ProductVariant[] = [];
+      for (const p of prods) {
+        const pvs = await db.getProductVariants(p.id);
+        allVariants.push(...pvs);
+      }
+      setVariants(allVariants);
+    } catch (err: any) {
+      console.error('Failed to load catalog:', err.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const refreshProducts = () => {
+    loadCatalog().catch(error => console.error('Failed refresh:', error.message))
+  }
+  useEffect(() => {
+    loadCatalog();
+  }, []);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+    <>
+      <Header />
+      <CartDrawer />
+
+      <main className="grow bg-black">
+        {/* 1. Cinematic Hero */}
+        <HeroSection />
+
+        {/* 2. Product Catalog */}
+        {loading ? (
+          <section className="flex items-center justify-center py-32 border-t border-border-blueprint bg-black">
+            <div className="flex flex-col items-center gap-4">
+              <Loader2 className="w-6 h-6 text-zinc-600 animate-spin" />
+              <span className="text-xs font-mono text-zinc-600 tracking-widest">LOADING CATALOG...</span>
+            </div>
+          </section>
+        ) : (
+          <CatalogSection products={products} variants={variants} refreshProducts={refreshProducts} />
+        )}
+
+        {/* 3. Tech Specs strip */}
+        <section id="specs" className="py-16 border-t border-border-blueprint bg-charcoal-900/30">
+          <div className="max-w-7xl mx-auto px-4 md:px-8">
+            <div className="mb-10">
+              <span className="text-[10px] font-mono text-zinc-600 block mb-2 tracking-widest">// 04 — TECHNICAL SPECIFICATIONS</span>
+              <h2 className="text-3xl font-display font-bold uppercase text-white tracking-tight">Built Different</h2>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-border-blueprint">
+              {[
+                { label: 'Shell Material', value: '3-Layer Technical Nylon', sub: 'DWR Treated, 20K/20K Rated' },
+                { label: 'Seam Sealing', value: 'Fully Taped', sub: 'Critical seams heat-welded' },
+                { label: 'Insulation', value: '650-Fill Down / PrimaLoft', sub: 'Hydrophobic treated' },
+                { label: 'Zippers', value: 'YKK AquaGuard', sub: 'Water-resistant coil' },
+                { label: 'Pockets', value: '6–8 Pockets', sub: 'Mesh, zippered, phone-compatible' },
+                { label: 'Packability', value: 'Packable to Stuff Sack', sub: 'Fist-sized compression' },
+              ].map(({ label, value, sub }) => (
+                <div key={label} className="bg-black p-8 space-y-2">
+                  <span className="text-[10px] font-mono text-zinc-600 uppercase tracking-widest block">{label}</span>
+                  <p className="font-display font-bold text-lg uppercase text-white leading-tight">{value}</p>
+                  <p className="text-xs font-sans text-zinc-500">{sub}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
       </main>
-    </div>
+
+      <Footer />
+    </>
   );
 }

@@ -1,26 +1,149 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #000000;
+  --foreground: #ffffff;
+  --charcoal-900: #0a0a0a;
+  --charcoal-800: #121212;
+  --charcoal-700: #1a1a1a;
+  --charcoal-600: #262626;
+  --blueprint-border: #1c1c1e;
+  --blueprint-grid: rgba(255, 255, 255, 0.03);
 }
 
-@theme inline {
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-33.333%); }
+}
+
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-charcoal-900: var(--charcoal-900);
+  --color-charcoal-800: var(--charcoal-800);
+  --color-charcoal-700: var(--charcoal-700);
+  --color-charcoal-600: var(--charcoal-600);
+  --color-border-blueprint: var(--blueprint-border);
+  --color-grid-blueprint: var(--blueprint-grid);
+  
+  --font-display: var(--font-syne), sans-serif;
+  --font-mono: var(--font-jetbrains-mono), monospace;
+  --font-sans: var(--font-geist-sans), sans-serif;
+
+  --animate-marquee: marquee 30s linear infinite;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.animate-marquee {
+  animation: var(--animate-marquee);
+}
+
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+::-webkit-scrollbar-thumb {
+  background: #1c1c1e;
+  border-radius: 0px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #262626;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+  font-family: var(--font-geist-sans), sans-serif;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* Blueprint Grid Background Pattern */
+.blueprint-grid-bg {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, var(--blueprint-grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--blueprint-grid) 1px, transparent 1px);
+}
+
+/* Blueprint Diagonal Accents */
+.blueprint-corner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  border-top: 1px solid #ffffff;
+  border-left: 1px solid #ffffff;
+}
+
+.blueprint-corner::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 6px;
+  height: 6px;
+  border-bottom: 1px solid #ffffff;
+  border-right: 1px solid #ffffff;
+}
+
+/* Asymmetric Grid Technical Details */
+.blueprint-panel {
+  border: 1px solid var(--blueprint-border);
+  background-color: var(--charcoal-900);
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.blueprint-panel:hover {
+  border-color: #333333;
+}
+
+.technical-line {
+  position: relative;
+}
+.technical-line::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: var(--blueprint-border);
+}
+
+/* Custom Text Masks for Hero Section */
+.text-mask-blend {
+  mix-blend-mode: difference;
+}
+
+/* Animation Utilities */
+.drawer-transition {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Lenis smooth scrolling rules */
+html.lenis {
+  height: auto;
+}
+
+.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis-smooth [data-lenis-prevent] {
+  overflow: clip;
+}
+
+.lenis-target {
+  scroll-behavior: auto !important;
 }
