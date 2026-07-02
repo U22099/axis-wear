@@ -5,15 +5,8 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true
   },
-  // Manage memory
-  productionBrowserSourceMaps: false,
-  typescript: {
-    ignoreBuildErrors: true,
-  },
   experimental: {
     instantNavigationDevToolsToggle: true,
-    cpus: 1,
-    workerThreads: false,
   },
 };
 

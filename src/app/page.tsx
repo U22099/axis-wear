@@ -1,7 +1,5 @@
 'use client';
 
-export const dynamic = 'force-dynamic';
-
 import { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -20,13 +18,11 @@ export default function Home() {
     try {
       const prods = await db.getProducts();
       setProducts(prods);
-
-      // Batch-load all variants
-      const allVariants: ProductVariant[] = [];
-      for (const p of prods) {
-        const pvs = await db.getProductVariants(p.id);
-        allVariants.push(...pvs);
-      }
+  
+      const variantPromises = prods.map((p) => db.getProductVariants(p.id));
+      const variantsResults = await Promise.all(variantPromises);
+      
+      const allVariants = variantsResults.flat();
       setVariants(allVariants);
     } catch (err: any) {
       console.error('Failed to load catalog:', err.message);
