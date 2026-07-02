@@ -44,10 +44,8 @@ export default function Home() {
       <CartDrawer />
 
       <main className="grow bg-black">
-        {/* 1. Cinematic Hero */}
         <HeroSection />
 
-        {/* 2. Product Catalog */}
         {loading ? (
           <section className="flex items-center justify-center py-32 border-t border-border-blueprint bg-black">
             <div className="flex flex-col items-center gap-4">
@@ -59,7 +57,6 @@ export default function Home() {
           <CatalogSection products={products} variants={variants} refreshProducts={refreshProducts} />
         )}
 
-        {/* 3. Tech Specs strip */}
         <section id="specs" className="py-16 border-t border-border-blueprint bg-charcoal-900/30">
           <div className="max-w-7xl mx-auto px-4 md:px-8">
             <div className="mb-10">

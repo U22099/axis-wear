@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     description:
       "High-end, editorial e-commerce landing page and storefront for an urban outerwear brand.",
     type: "website",
-    images: ["/logo.webp"],
+    images: [`${process.env.NEXT_PUBLIC_SITE_URL}/logo.webp`],
   },
 };
 

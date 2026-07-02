@@ -26,13 +26,11 @@ export default function CatalogSection({
   const [hideOutOfStock, setHideOutOfStock] = useState(false);
 
   const filteredProducts = products.filter((product) => {
-    // Category filter
     if (selectedCategory !== "All" && product.category !== selectedCategory)
       return false;
 
     const productVariants = variants.filter((v) => v.product_id === product.id);
 
-    // Size filter — must have that size in stock
     if (selectedSize !== "All") {
       const hasSize = productVariants.some(
         (v) => v.size === selectedSize && v.stock > 0,
@@ -40,7 +38,6 @@ export default function CatalogSection({
       if (!hasSize) return false;
     }
 
-    // Stock filter
     if (hideOutOfStock) {
       const totalStock = productVariants.reduce((sum, v) => sum + v.stock, 0);
       if (totalStock <= 0) return false;
@@ -65,7 +62,6 @@ export default function CatalogSection({
       className="py-20 border-t border-border-blueprint bg-black"
     >
       <div className="max-w-7xl mx-auto px-4 md:px-8">
-        {/* Section header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
           <div>
             <span className="text-[10px] font-mono text-zinc-600 block mb-2 tracking-widest">
@@ -76,7 +72,6 @@ export default function CatalogSection({
             </h2>
           </div>
 
-          {/* Tab selector */}
           <div className="flex w-fit gap-2 p-1 border border-border-blueprint bg-charcoal-900/50">
             <button
               onClick={() => setActiveTab("ours")}
@@ -97,7 +92,6 @@ export default function CatalogSection({
 
         {activeTab === "ours" && (
           <>
-            {/* Filter bar */}
             <div className="flex flex-wrap items-center gap-4 mb-8 pb-6 border-b border-border-blueprint">
               <div className="flex items-center gap-2">
                 <Filter className="w-3 h-3 text-zinc-600" />
@@ -106,7 +100,6 @@ export default function CatalogSection({
                 </span>
               </div>
 
-              {/* Categories */}
               <div className="flex gap-1.5">
                 {CATEGORIES.map((cat) => (
                   <button
@@ -126,7 +119,6 @@ export default function CatalogSection({
 
               <div className="text-zinc-800 hidden md:block">|</div>
 
-              {/* Sizes */}
               <div className="flex gap-1.5">
                 {SIZES.map((size) => (
                   <button
@@ -146,7 +138,6 @@ export default function CatalogSection({
 
               <div className="text-zinc-800 hidden md:block">|</div>
 
-              {/* In stock only toggle */}
               <button
                 onClick={() => setHideOutOfStock(!hideOutOfStock)}
                 className={`flex items-center gap-2 px-3 py-1.5 text-[10px] font-mono border transition-colors uppercase
@@ -159,7 +150,6 @@ export default function CatalogSection({
                 In Stock Only
               </button>
 
-              {/* Reset filters */}
               {hasActiveFilters && (
                 <button
                   onClick={resetFilters}
@@ -170,13 +160,11 @@ export default function CatalogSection({
                 </button>
               )}
 
-              {/* Count */}
               <span className="ml-auto text-[10px] font-mono text-zinc-600">
                 {filteredProducts.length} of {products.length} shown
               </span>
             </div>
 
-            {/* Product grid */}
             {filteredProducts.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 bg-border-blueprint">
                 {filteredProducts.map((product, i) => (
