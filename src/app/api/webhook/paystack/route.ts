@@ -45,7 +45,7 @@ export async function POST(request: Request) {
         await db.updateOrderStatus(reference, 'paid');
         
         // Retrieve and decrement stock levels
-        const orderWithItems = await db.getOrder(order.id);
+        const orderWithItems = await db.getOrderByReference(order.paystack_reference);
         if (orderWithItems && orderWithItems.order_items) {
           for (const item of orderWithItems.order_items) {
             await db.updateVariantStock(item.variant_id, item.quantity);
