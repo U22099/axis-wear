@@ -20,7 +20,7 @@ function MarqueeTrack() {
 export default function InfiniteMarquee() {
   return (
     <div className="w-full overflow-hidden border-t border-b border-border-blueprint py-3 bg-black relative">
-      {/* Fade edges */}
+
       <div className="absolute left-0 top-0 bottom-0 w-16 z-10 bg-linear-to-r from-black to-transparent pointer-events-none" />
       <div className="absolute right-0 top-0 bottom-0 w-16 z-10 bg-linear-to-l from-black to-transparent pointer-events-none" />
 

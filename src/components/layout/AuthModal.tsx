@@ -23,7 +23,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
 
   const handleClose = () => {
     onClose();
-    // Reset state after animation
+
     setTimeout(() => {
       setEmail('');
       setOtp('');
@@ -70,13 +70,13 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose} showClose>
-      {/* Version tag */}
+
       <div className="absolute top-2 right-8 text-[8px] font-mono text-zinc-700">
         SECURE AUTH v4.1
       </div>
 
       <div className="space-y-6">
-        {/* Heading */}
+
         <div className="space-y-2">
           <span className="text-xs font-mono tracking-widest text-zinc-500">// SIGN IN</span>
           <h3 className="text-2xl font-display font-bold tracking-tight uppercase">
@@ -87,14 +87,12 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
           </p>
         </div>
 
-        {/* Error */}
         {authError && (
           <div className="p-3 bg-red-950/20 border border-red-900/50 text-red-400 text-xs font-mono text-center">
             {authError}
           </div>
         )}
 
-        {/* Google */}
         <button
           onClick={handleGoogleLogin}
           disabled={isLoading}
@@ -106,14 +104,12 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
           <span>Continue with Google</span>
         </button>
 
-        {/* Divider */}
         <div className="relative flex py-2 items-center">
           <div className="grow border-t border-border-blueprint" />
           <span className="shrink mx-4 text-[10px] font-mono text-zinc-600">OR EMAIL</span>
           <div className="grow border-t border-border-blueprint" />
         </div>
 
-        {/* OTP flow */}
         {!otpSent ? (
           <form onSubmit={handleSendOTP} className="space-y-4">
             <Input

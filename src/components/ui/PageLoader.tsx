@@ -18,7 +18,7 @@ export default function PageLoader({
         fullPage ? 'min-h-[70vh]' : 'py-24',
       ].join(' ')}
     >
-      {/* Animated spinner ring — brand-consistent, no Lucide dependency */}
+
       <div className="w-6 h-6 border-2 border-zinc-800 border-t-white animate-spin" />
       <span className="text-[10px] font-mono text-zinc-500 tracking-widest uppercase">
         {label}

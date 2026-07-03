@@ -8,9 +8,9 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
-  /** Max width class, defaults to 'max-w-md' */
+
   maxWidth?: string;
-  /** Show a close button in top-right corner */
+
   showClose?: boolean;
 }
 
@@ -25,7 +25,7 @@ export default function Modal({
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* Backdrop */}
+
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.75 }}
@@ -34,7 +34,6 @@ export default function Modal({
             className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm"
           />
 
-          {/* Panel */}
           <motion.div
             initial={{ scale: 0.95, opacity: 0, y: 8 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}

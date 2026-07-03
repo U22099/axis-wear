@@ -8,7 +8,7 @@ import InfiniteMarquee from '@/components/home/InfiniteMarquee';
 export default function HeroSection() {
   return (
     <section className="relative w-full flex flex-col overflow-hidden border-b border-border-blueprint">
-      {/* Background */}
+
       <div className="absolute inset-0 z-0">
         <Image
           src="/images/hero-bg.jpg"
@@ -21,7 +21,6 @@ export default function HeroSection() {
         <div className="absolute inset-0 blueprint-grid-bg opacity-20" />
       </div>
 
-      {/* Corner metadata */}
       <div className="absolute top-6 left-6 hidden md:block text-[9px] font-mono text-zinc-600 space-y-1 z-10">
         <div>// GEO: 6.5244°N 3.3792°E</div>
         <div>// SECTOR: DELTA-URBAN</div>
@@ -32,7 +31,6 @@ export default function HeroSection() {
         <div>SHIELD CLASS // MOD-4</div>
       </div>
 
-      {/* Hero content */}
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[88vh] text-center px-6 space-y-8">
         <motion.div
           initial={{ opacity: 0, y: 28 }}
@@ -41,7 +39,7 @@ export default function HeroSection() {
           className="space-y-3"
         >
           <span className="text-xs font-mono tracking-[0.4em] text-zinc-400 uppercase block">
-            // Engineered Urban Shielding
+
           </span>
           <h1 className="text-5xl md:text-8xl font-display font-extrabold tracking-tighter text-white uppercase leading-none">
             AXIS&thinsp;//<br />
@@ -82,14 +80,12 @@ export default function HeroSection() {
         </motion.div>
       </div>
 
-      {/* Bottom label strip */}
       <div className="relative z-10 flex justify-between items-center px-6 md:px-12 py-3 border-t border-border-blueprint/40 text-[10px] font-mono text-zinc-700">
         <span>AXIS_LABS_v4.1</span>
         <span>SCROLL TO EXPLORE</span>
         <span>ALL RIGHTS RESERVED</span>
       </div>
 
-      {/* Infinite marquee */}
       <InfiniteMarquee />
     </section>
   );

@@ -39,7 +39,7 @@ export default function ShippingForm({
       </div>
 
       <form onSubmit={onSubmit} className="space-y-6">
-        {/* Section heading */}
+
         <div className="flex items-center gap-2 border-b border-border-blueprint pb-4">
           <UserCheck className="w-4 h-4 text-zinc-400" />
           <span className="text-xs font-mono tracking-widest text-white uppercase">
@@ -47,7 +47,6 @@ export default function ShippingForm({
           </span>
         </div>
 
-        {/* Fields grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Input
             label="FULL DEPLOYMENT NAME"
@@ -93,7 +92,6 @@ export default function ShippingForm({
           </div>
         </div>
 
-        {/* Same-address checkbox */}
         <div className="flex items-center gap-2 pt-2">
           <input
             type="checkbox"
@@ -110,7 +108,6 @@ export default function ShippingForm({
           </label>
         </div>
 
-        {/* Save row */}
         <div className="pt-2 flex items-center justify-between border-t border-border-blueprint/40">
           {saveSuccess && (
             <span className="text-[10px] font-mono text-emerald-400 uppercase">

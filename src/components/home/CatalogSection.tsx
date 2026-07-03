@@ -57,7 +57,7 @@ export default function CatalogSection({
   return (
     <section id="catalog" className="py-20 border-t border-border-blueprint bg-black">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
-        {/* Section header + tab switcher */}
+
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
           <SectionLabel index="03" tag="PRODUCT CATALOG" title="Shop The Collection" />
 
@@ -79,7 +79,6 @@ export default function CatalogSection({
           </div>
         </div>
 
-        {/* AxisWear products */}
         {activeTab === 'ours' && (
           <>
             <CatalogFilters
@@ -132,7 +131,6 @@ export default function CatalogSection({
           </>
         )}
 
-        {/* External grid */}
         {activeTab === 'external' && <ExternalProductGrid />}
       </div>
     </section>

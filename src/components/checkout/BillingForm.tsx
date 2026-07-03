@@ -13,7 +13,7 @@ export default function BillingForm({ billing, onBillingChange }: BillingFormPro
   return (
     <div className="space-y-4 pt-4 border-t border-border-blueprint">
       <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest block">
-        // BILLING MATRIX
+
       </span>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Input

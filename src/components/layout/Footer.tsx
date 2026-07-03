@@ -20,11 +20,11 @@ const PORTAL_LINKS = [
 export default function Footer() {
   return (
     <footer className="border-t border-border-blueprint bg-black text-zinc-500 py-16 px-6 md:px-12 relative overflow-hidden">
-      {/* Blueprint grid watermark */}
+
       <div className="absolute inset-0 blueprint-grid-bg opacity-30 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10">
-        {/* Brand column */}
+
         <div className="space-y-4 md:col-span-2 border-r border-border-blueprint/40 pr-8">
           <div className="space-y-1">
             <h4 className="text-sm font-display font-extrabold tracking-tighter text-white uppercase">
@@ -45,10 +45,9 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Explore links */}
         <div className="space-y-4">
           <span className="block text-xs font-mono tracking-widest text-zinc-400">
-            // EXPLORE COLLECTION
+
           </span>
           <ul className="space-y-2 text-xs font-mono">
             {EXPLORE_LINKS.map((link) => (
@@ -61,10 +60,9 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Customer portal links */}
         <div className="space-y-4">
           <span className="block text-xs font-mono tracking-widest text-zinc-400">
-            // CUSTOMER PORTAL
+
           </span>
           <ul className="space-y-2 text-xs font-mono">
             {PORTAL_LINKS.map((link) => (
@@ -82,7 +80,6 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Bottom bar */}
       <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-border-blueprint/40 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] font-mono text-zinc-600 relative z-10">
         <div>© 2026 AXISWEAR. CO. ALL SYSTEMS CODIFIED.</div>
         <div className="flex gap-6">

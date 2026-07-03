@@ -21,7 +21,7 @@ export default function OrderSummary({
 }: OrderSummaryProps) {
   return (
     <div className="border border-border-blueprint bg-charcoal-900/50 p-6 space-y-6 blueprint-corner">
-      {/* Header */}
+
       <div className="flex items-center gap-2 border-b border-border-blueprint pb-4">
         <FileText className="w-4 h-4 text-zinc-400" />
         <span className="text-xs font-mono tracking-widest text-white uppercase">
@@ -29,7 +29,6 @@ export default function OrderSummary({
         </span>
       </div>
 
-      {/* Line items */}
       {items.length === 0 ? (
         <div className="text-center font-mono text-[10px] text-zinc-500 py-12">
           YOUR BAG IS EMPTY. RETRIEVE PRODUCTS FROM SYSTEM.
@@ -67,7 +66,6 @@ export default function OrderSummary({
         </div>
       )}
 
-      {/* Totals */}
       <div className="space-y-2 border-t border-border-blueprint/40 pt-4 font-mono text-xs">
         <div className="flex justify-between text-zinc-500">
           <span>SUBTOTAL</span>
@@ -83,7 +81,6 @@ export default function OrderSummary({
         </div>
       </div>
 
-      {/* CTA */}
       <Button
         onClick={onCheckout}
         disabled={items.length === 0}

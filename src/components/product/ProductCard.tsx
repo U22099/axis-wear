@@ -34,7 +34,7 @@ export default function ProductCard({
         .filter(Boolean)
         .join(' ')}
     >
-      {/* Product image */}
+
       <div
         className={[
           'relative overflow-hidden bg-zinc-950 shrink-0',
@@ -49,7 +49,6 @@ export default function ProductCard({
           className="object-cover brightness-90 group-hover:brightness-100 group-hover:scale-[1.03] transition-all duration-700"
         />
 
-        {/* Stock status overlay / badge */}
         {isOutOfStock && (
           <div className="absolute inset-0 bg-black/75 flex items-center justify-center">
             <Badge variant="sold-out">Sold Out</Badge>
@@ -62,7 +61,6 @@ export default function ProductCard({
         )}
       </div>
 
-      {/* Info */}
       <div className={['flex flex-col justify-between p-5', wide ? 'flex-1' : ''].join(' ')}>
         <div className="space-y-2">
           <div className="flex justify-between items-center text-[10px] font-mono text-zinc-600">
@@ -80,7 +78,6 @@ export default function ProductCard({
             </p>
           )}
 
-          {/* Available sizes */}
           {availableSizes.length > 0 && (
             <div className="flex gap-1.5 pt-1 flex-wrap">
               {availableSizes.map((s) => (

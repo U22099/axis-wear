@@ -14,8 +14,6 @@ export default function ProductInfo({ slug }: ProductInfoProps) {
   const { product, variants, loading, notFound } = useProductDetail(slug);
   const router = useRouter();
 
-  // Redirect to 404 page when product is not found — done in an effect
-  // so it happens after initial render (valid in 'use client' components)
   useEffect(() => {
     if (notFound) {
       router.replace('/not-found');

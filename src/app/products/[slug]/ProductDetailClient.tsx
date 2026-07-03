@@ -56,7 +56,7 @@ export default function ProductDetailClient({
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-12 md:py-20">
-      {/* Back link */}
+
       <Link
         href="/#catalog"
         className="inline-flex items-center gap-2 text-xs font-mono tracking-widest text-zinc-500 hover:text-white transition-colors mb-12 uppercase"
@@ -66,7 +66,7 @@ export default function ProductDetailClient({
       </Link>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-        {/* Left: product image */}
+
         <div className="lg:col-span-7 space-y-6">
           <div className="relative w-full h-[65vh] border border-border-blueprint bg-charcoal-900/50 overflow-hidden group blueprint-corner">
             <Image
@@ -85,14 +85,13 @@ export default function ProductDetailClient({
           </div>
         </div>
 
-        {/* Right: product info */}
         <div className="lg:col-span-5 flex flex-col justify-between space-y-8">
           <div className="space-y-6">
-            {/* Header */}
+
             <div className="space-y-2">
               <div className="flex items-center gap-3">
                 <span className="text-xs font-mono text-zinc-500 uppercase tracking-widest">
-                  // DEPLOYMENT LEVEL: {product.category}
+
                 </span>
                 <Badge variant="ready">READY</Badge>
               </div>
@@ -104,18 +103,16 @@ export default function ProductDetailClient({
               </div>
             </div>
 
-            {/* Description */}
             <p className="text-sm text-zinc-400 leading-relaxed font-sans">
               {product.description}
             </p>
 
             <div className="border-t border-border-blueprint" />
 
-            {/* Size selector */}
             <div className="space-y-4">
               <div className="flex justify-between items-baseline">
                 <span className="text-xs font-mono text-zinc-400 uppercase tracking-wider">
-                  // CHOOSE SIZE VARIANT
+
                 </span>
                 <span className="text-[10px] font-mono text-zinc-500">
                   {selectedVariant ? `SKU: ${selectedVariant.sku}` : 'SELECT ONE'}
@@ -168,7 +165,6 @@ export default function ProductDetailClient({
               )}
             </div>
 
-            {/* Selected variant metrics */}
             {selectedVariant && (
               <div className="p-4 border border-border-blueprint bg-charcoal-900/30 font-mono text-[11px] text-zinc-400 space-y-1">
                 <div className="flex justify-between">
@@ -188,7 +184,6 @@ export default function ProductDetailClient({
               </div>
             )}
 
-            {/* Feedback alert */}
             {feedback && (
               <div
                 className={[
@@ -207,7 +202,6 @@ export default function ProductDetailClient({
               </div>
             )}
 
-            {/* Qty + add to cart */}
             <div className="flex gap-4 pt-4">
               {selectedVariant && selectedVariant.stock > 0 && (
                 <div className="flex items-center border border-border-blueprint bg-black shrink-0">
@@ -245,10 +239,9 @@ export default function ProductDetailClient({
             </div>
           </div>
 
-          {/* Fabric spec sheet */}
           <div className="border-t border-border-blueprint pt-6 space-y-4">
             <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest block">
-              // FABRIC SPEC SHEET
+
             </span>
             <div className="grid grid-cols-2 gap-4 text-[10px] font-mono text-zinc-400">
               {FABRIC_SPECS.map(({ label, value }) => (

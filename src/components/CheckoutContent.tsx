@@ -49,7 +49,6 @@ export default function CheckoutContent() {
   const mockRefParam = searchParams.get('mock_pay_reference');
   const isSuccess = searchParams.get('status') === 'success';
 
-  // ── Load user data ──────────────────────────────────────────────────────────
   useEffect(() => {
     if (!user) return;
 
@@ -67,7 +66,6 @@ export default function CheckoutContent() {
     loadOrders(user.id);
   }, [user]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // ── Payment verification on load ───────────────────────────────────────────
   useEffect(() => {
     if (paystackRef) {
       verifyPaystackPayment(paystackRef);
@@ -77,7 +75,6 @@ export default function CheckoutContent() {
     }
   }, [paystackRef, mockRefParam]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // ── Data fetching ───────────────────────────────────────────────────────────
   const loadOrders = async (userId: string) => {
     setOrdersLoading(true);
     try {
@@ -95,7 +92,6 @@ export default function CheckoutContent() {
     }
   };
 
-  // ── Handlers ────────────────────────────────────────────────────────────────
   const handleSaveAddresses = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) return;
@@ -208,19 +204,18 @@ export default function CheckoutContent() {
       setErrorMessage('Mock transaction cancelled by user.');
     }
   };
-
-  // ── Render ──────────────────────────────────────────────────────────────────
+  
   return (
     <>
       <main className="grow bg-black py-16 px-6 md:px-12 relative">
         <div className="absolute inset-0 blueprint-grid-bg opacity-15 pointer-events-none" />
 
         <div className="max-w-7xl mx-auto relative z-10">
-          {/* Page header */}
+
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 pb-6 border-b border-border-blueprint">
             <div className="space-y-1">
               <span className="text-xs font-mono tracking-widest text-zinc-500">
-                // SHIPPING &amp; PROTOCOL
+
               </span>
               <h2 className="text-3xl font-display font-extrabold tracking-tight uppercase">
                 SHIELD CHECKOUT
@@ -231,7 +226,6 @@ export default function CheckoutContent() {
             </div>
           </div>
 
-          {/* Success banner */}
           {isSuccess && (
             <div className="mb-12 p-8 border border-emerald-900 bg-emerald-950/10 flex flex-col md:flex-row items-center gap-6 blueprint-corner">
               <CheckCircle2 className="w-12 h-12 text-emerald-500 shrink-0" />
@@ -254,7 +248,6 @@ export default function CheckoutContent() {
             </div>
           )}
 
-          {/* Error message */}
           {errorMessage && (
             <div className="mb-8 p-4 bg-red-950/20 border border-red-900/50 text-red-400 text-xs font-mono text-center">
               SYSTEM ERROR: {errorMessage}
@@ -268,7 +261,7 @@ export default function CheckoutContent() {
             </div>
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-              {/* Left column: shipping form + order history */}
+
               <div className="lg:col-span-7 space-y-12">
                 {user ? (
                   <>
@@ -298,7 +291,7 @@ export default function CheckoutContent() {
                 ) : (
                   <div className="border border-border-blueprint p-8 bg-charcoal-900/30 text-center space-y-4 blueprint-corner">
                     <span className="text-xs font-mono text-zinc-500 block uppercase">
-                      // SECURE ACCESS MISSING
+
                     </span>
                     <p className="text-xs text-zinc-400 max-w-sm mx-auto leading-relaxed">
                       Dispatch orders directly as a guest, or connect your session
@@ -309,7 +302,6 @@ export default function CheckoutContent() {
                 )}
               </div>
 
-              {/* Right column: order summary */}
               <div className="lg:col-span-5">
                 <OrderSummary
                   items={items}
@@ -323,7 +315,6 @@ export default function CheckoutContent() {
         </div>
       </main>
 
-      {/* Mock payment simulator modal */}
       <MockPayModal
         isOpen={showMockModal}
         reference={mockReference}

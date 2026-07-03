@@ -31,7 +31,7 @@ export default function CatalogFilters({
 }: CatalogFiltersProps) {
   return (
     <div className="flex flex-wrap items-center gap-4 mb-8 pb-6 border-b border-border-blueprint">
-      {/* Label */}
+
       <div className="flex items-center gap-2">
         <Filter className="w-3 h-3 text-zinc-600" />
         <span className="text-[10px] font-mono text-zinc-600 uppercase tracking-widest">
@@ -39,7 +39,6 @@ export default function CatalogFilters({
         </span>
       </div>
 
-      {/* Category buttons */}
       <div className="flex gap-1.5">
         {CATEGORIES.map((cat) => (
           <button
@@ -57,10 +56,8 @@ export default function CatalogFilters({
         ))}
       </div>
 
-      {/* Divider */}
       <div className="text-zinc-800 hidden md:block">|</div>
 
-      {/* Size buttons */}
       <div className="flex gap-1.5">
         {SIZES.map((size) => (
           <button
@@ -78,10 +75,8 @@ export default function CatalogFilters({
         ))}
       </div>
 
-      {/* Divider */}
       <div className="text-zinc-800 hidden md:block">|</div>
 
-      {/* In stock toggle */}
       <button
         onClick={onToggleInStock}
         className={[
@@ -94,7 +89,6 @@ export default function CatalogFilters({
         In Stock Only
       </button>
 
-      {/* Clear filters */}
       {hasActiveFilters && (
         <button
           onClick={onReset}
@@ -105,7 +99,6 @@ export default function CatalogFilters({
         </button>
       )}
 
-      {/* Result count */}
       <span className="ml-auto text-[10px] font-mono text-zinc-600">
         {filteredCount} of {totalCount} shown
       </span>

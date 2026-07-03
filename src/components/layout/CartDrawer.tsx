@@ -9,7 +9,6 @@ import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
 import type { CartItem as CartItemType } from '@/lib/types';
 
-// ─── Cart Line Item ────────────────────────────────────────────────────────────
 interface CartLineItemProps {
   item: CartItemType;
   onQtyChange: (variantId: string, qty: number) => void;
@@ -19,7 +18,7 @@ interface CartLineItemProps {
 function CartLineItem({ item, onQtyChange, onRemove }: CartLineItemProps) {
   return (
     <div className="flex gap-4 p-4 border border-border-blueprint bg-charcoal-900/50 hover:bg-charcoal-900 transition-all group">
-      {/* Thumbnail */}
+
       <div className="relative w-20 h-24 border border-border-blueprint bg-black shrink-0 overflow-hidden">
         <Image
           src={item.product.image_url}
@@ -29,7 +28,6 @@ function CartLineItem({ item, onQtyChange, onRemove }: CartLineItemProps) {
         />
       </div>
 
-      {/* Info */}
       <div className="flex flex-col justify-between flex-1 min-w-0">
         <div>
           <h3 className="text-sm font-bold tracking-tight truncate uppercase font-display text-white">
@@ -41,7 +39,7 @@ function CartLineItem({ item, onQtyChange, onRemove }: CartLineItemProps) {
         </div>
 
         <div className="flex items-center justify-between mt-3">
-          {/* Qty stepper */}
+
           <div className="flex items-center border border-border-blueprint bg-black">
             <button
               onClick={() => onQtyChange(item.variantId, item.quantity - 1)}
@@ -61,7 +59,6 @@ function CartLineItem({ item, onQtyChange, onRemove }: CartLineItemProps) {
             </button>
           </div>
 
-          {/* Price + remove */}
           <div className="flex items-center gap-3">
             <span className="text-sm font-mono font-bold text-white">
               ${(item.product.price * item.quantity).toFixed(2)}
@@ -80,7 +77,6 @@ function CartLineItem({ item, onQtyChange, onRemove }: CartLineItemProps) {
   );
 }
 
-// ─── Cart Drawer ───────────────────────────────────────────────────────────────
 export default function CartDrawer() {
   const { items, isOpen, setIsOpen, updateQty, removeItem, total, count } = useCart();
   const { user } = useAuth();
@@ -99,7 +95,7 @@ export default function CartDrawer() {
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* Backdrop */}
+
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.6 }}
@@ -108,7 +104,6 @@ export default function CartDrawer() {
             className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm"
           />
 
-          {/* Drawer Panel */}
           <motion.div
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
@@ -116,7 +111,7 @@ export default function CartDrawer() {
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
             className="fixed right-0 top-0 bottom-0 z-50 flex flex-col w-full max-w-md bg-black border-l border-border-blueprint"
           >
-            {/* Header */}
+
             <div className="flex items-center justify-between p-6 border-b border-border-blueprint">
               <div className="space-y-1">
                 <span className="text-xs font-mono tracking-widest text-zinc-500">// SHOPPING BAG</span>
@@ -133,7 +128,6 @@ export default function CartDrawer() {
               </button>
             </div>
 
-            {/* Error banner */}
             {errorMsg && (
               <div className="flex items-start gap-2 px-6 py-3 bg-red-950/30 border-b border-red-900/50 text-red-400 text-xs font-mono">
                 <ShieldAlert className="w-4 h-4 mt-0.5 shrink-0" />
@@ -141,7 +135,6 @@ export default function CartDrawer() {
               </div>
             )}
 
-            {/* Items */}
             <div className="flex-1 overflow-y-auto p-6 space-y-4">
               {items.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full text-center space-y-5">
@@ -171,7 +164,6 @@ export default function CartDrawer() {
               )}
             </div>
 
-            {/* Footer */}
             {items.length > 0 && (
               <div className="p-6 border-t border-border-blueprint space-y-4 bg-black">
                 <div className="space-y-2">

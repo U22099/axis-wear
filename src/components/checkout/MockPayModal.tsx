@@ -25,7 +25,7 @@ export default function MockPayModal({
     >
       <div className="space-y-6 text-center">
         <span className="text-xs font-mono tracking-widest text-zinc-500 uppercase">
-          // PAYSTACK SANDBOX SIMULATOR
+
         </span>
 
         <div className="space-y-2">
@@ -39,7 +39,6 @@ export default function MockPayModal({
           </p>
         </div>
 
-        {/* Transaction detail panel */}
         <div className="border border-border-blueprint p-4 bg-charcoal-900/40 text-left font-mono text-[10px] text-zinc-500 space-y-1">
           <div>AMOUNT: ${total.toFixed(2)} USD</div>
           <div>CONVERTED: ₦{(total * 1600).toFixed(2)} NGN</div>

@@ -47,7 +47,7 @@ export default function ExternalProductGrid() {
 
   return (
     <div className="space-y-6">
-      {/* Live feed indicator */}
+
       <div className="flex items-center gap-3 pb-4 border-b border-border-blueprint">
         <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
         <span className="text-[10px] font-mono text-zinc-500 tracking-widest uppercase">
@@ -61,7 +61,7 @@ export default function ExternalProductGrid() {
             key={product.id}
             className="group border border-border-blueprint bg-charcoal-900/20 hover:bg-charcoal-900 hover:border-zinc-700 transition-all duration-500 flex flex-col"
           >
-            {/* Image */}
+
             <div className="relative h-56 bg-zinc-950/80 overflow-hidden">
               <Image
                 src={product.image}
@@ -71,11 +71,10 @@ export default function ExternalProductGrid() {
               />
             </div>
 
-            {/* Info */}
             <div className="flex flex-col flex-1 p-4 space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-[9px] font-mono text-zinc-600 uppercase tracking-widest">
-                  // External
+
                 </span>
                 <span className="text-[9px] font-mono text-zinc-600">
                   ★ {product.rating.rate} ({product.rating.count})
