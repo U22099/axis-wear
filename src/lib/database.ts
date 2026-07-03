@@ -3,10 +3,8 @@
 import { createClient as createBrowserClient } from '@/utils/supabase/client';
 import { Profile, Product, ProductVariant, Order, OrderItem } from './types';
 
-// Re-export types for convenience
 export type { Profile, Product, ProductVariant, Order, OrderItem };
 
-// Browser-only supabase client (for client components)
 const supabase = createBrowserClient();
 
 export const db = {

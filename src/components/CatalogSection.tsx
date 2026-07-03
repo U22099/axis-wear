@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { Filter, RefreshCw } from "lucide-react";
 import { Product, ProductVariant } from "@/lib/types";
 import ProductCard from "./ProductCard";
