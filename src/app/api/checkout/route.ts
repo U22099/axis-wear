@@ -15,7 +15,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: 'Malformed payload credentials' }, { status: 400 });
     }
 
-    // 1. Verify variant stock levels on the server to prevent overselling
     for (const item of items) {
       const variant = await db(supabase).getVariantById(item.variantId);
       if (!variant) {
@@ -29,7 +28,6 @@ export async function POST(request: Request) {
       }
     }
 
-    // 2. Initialize Paystack Sandbox Transaction
     const metadata = {
       orderId: `ord-${Math.random().toString(36).substr(2, 9)}`,
       userId,
@@ -47,7 +45,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: paystackResult.error || 'Gateway Rejected initialization' }, { status: 502 });
     }
 
-    // 3. Persist Order status as PENDING in Database
     const order = await db(supabase).createOrder({
       profile_id: userId,
       amount,

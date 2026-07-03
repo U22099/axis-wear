@@ -9,7 +9,6 @@ export async function POST(request: Request) {
     const rawBody = await request.text();
     const signature = request.headers.get('x-paystack-signature');
 
-    // 1. Verify Paystack Signature (Only if API Key is configured)
     if (PAYSTACK_SECRET_KEY) {
       if (!signature) {
         return new Response('Signature header missing', { status: 401 });
@@ -27,24 +26,20 @@ export async function POST(request: Request) {
 
     const payload = JSON.parse(rawBody);
 
-    // 2. Filter Event Type: charge.success
     if (payload.event === 'charge.success') {
       const transactionData = payload.data;
       const reference = transactionData.reference;
-      
-      // Load current order state
+
       const order = await db.getOrderByReference(reference);
       
       if (!order) {
         return NextResponse.json({ success: false, error: 'Order reference not found' }, { status: 404 });
       }
 
-      // Check to prevent double processing
       if (order.status !== 'paid') {
-        // Update order status pending -> paid
+
         await db.updateOrderStatus(reference, 'paid');
-        
-        // Retrieve and decrement stock levels
+
         const orderWithItems = await db.getOrderByReference(order.paystack_reference);
         if (orderWithItems && orderWithItems.order_items) {
           for (const item of orderWithItems.order_items) {

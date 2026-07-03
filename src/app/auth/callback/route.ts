@@ -18,6 +18,5 @@ export async function GET(request: Request) {
     console.error("Error exchanging OAuth code for session:", error);
   }
 
-  // Redirect to home page on failure or mock trigger
   return NextResponse.redirect(`${origin}/`);
 }
