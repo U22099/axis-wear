@@ -1,4 +1,4 @@
-// Shared TypeScript types for the AxisWear application
+
 
 export interface Profile {
   id: string;

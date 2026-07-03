@@ -1,6 +1,4 @@
-// Paystack API Integration (Sandbox Mode)
-// Paystack handles payments in subunits (e.g., Kobo for NGN, Cents for USD).
-// We will convert prices to Nigerian Naira (NGN) using a conversion rate of 1 USD = 1600 NGN.
+
 
 const PAYSTACK_SECRET_KEY = process.env.PAYSTACK_SECRET_KEY || '';
 const isPaystackConfigured = Boolean(PAYSTACK_SECRET_KEY);
@@ -24,10 +22,6 @@ export interface PaystackVerifyResponse {
 export const paystack = {
   isMock: !isPaystackConfigured,
 
-  /**
-   * Initializes a transaction with Paystack.
-   * If PAYSTACK_SECRET_KEY is absent, returns a mock reference for simulated checkout.
-   */
   async initializeTransaction(
     email: string,
     amountInUSD: number,
@@ -38,7 +32,7 @@ export const paystack = {
     const reference = `pay-${Math.random().toString(36).substr(2, 9)}-${Date.now()}`;
 
     if (!isPaystackConfigured) {
-      // Mock Sandbox Initialization
+
       console.log(`[MOCK PAYSTACK] Initializing payment for ${email} of amount $${amountInUSD} (converted: ₦${amountInUSD * 1600})`);
       return {
         success: true,
@@ -85,12 +79,9 @@ export const paystack = {
     }
   },
 
-  /**
-   * Verifies the payment transaction reference status.
-   */
   async verifyTransaction(reference: string): Promise<PaystackVerifyResponse> {
     if (!isPaystackConfigured) {
-      // Mock Sandbox Verification
+
       console.log(`[MOCK PAYSTACK] Verifying mock reference: ${reference}`);
       if (reference.startsWith('pay-')) {
         return {

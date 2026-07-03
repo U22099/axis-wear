@@ -1,4 +1,4 @@
-// AxisWear — Central Constants
+
 
 export const CATEGORIES = ['All', 'Outerwear', 'Core'] as const;
 export type Category = (typeof CATEGORIES)[number];

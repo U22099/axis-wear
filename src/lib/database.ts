@@ -8,10 +8,9 @@ export type { Profile, Product, ProductVariant, Order, OrderItem };
 const supabase = createBrowserClient();
 
 export const db = {
-  // Auth
+
   getSupabase: () => supabase,
 
-  // Products
   async getProducts(): Promise<Product[]> {
     const { data, error } = await supabase
       .from('products')
@@ -74,7 +73,6 @@ export const db = {
     if (error) throw error;
   },
 
-  // Profiles
   async getProfile(userId: string): Promise<Profile | null> {
     const { data, error } = await supabase
       .from('profiles')
@@ -106,7 +104,6 @@ export const db = {
     return data;
   },
 
-  // Orders
   async createOrder(orderData: {
     profile_id: string | null;
     amount: number;

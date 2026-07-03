@@ -24,7 +24,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const supabase = createClient();
 
   useEffect(() => {
-    // Initial session check
+
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
         syncProfile(session.user.id, session.user.email ?? '');
@@ -33,7 +33,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     });
 
-    // Listen for auth changes (login, logout, token refresh)
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       if (session?.user) {
         syncProfile(session.user.id, session.user.email ?? '');
@@ -50,7 +49,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       let profile = await db.getProfile(userId);
       if (!profile) {
-        // Auto-create profile on first sign-in
+
         profile = await db.upsertProfile({
           id: userId,
           email,

@@ -56,9 +56,7 @@ export const db = (supabase: SupabaseClient<any, "public", "public", any, any>) 
       .update({ stock: newStock })
       .eq("id", variantId);
     if (error) throw error;
-  },
-
-  // Profiles
+  },
   async getProfile(userId: string): Promise<Profile | null> {
     const { data, error } = await supabase
       .from("profiles")
@@ -93,9 +91,7 @@ export const db = (supabase: SupabaseClient<any, "public", "public", any, any>) 
       .single();
     if (error) throw error;
     return data;
-  },
-
-  // Orders
+  },
   async createOrder(orderData: {
     profile_id: string | null;
     amount: number;

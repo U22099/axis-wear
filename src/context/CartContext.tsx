@@ -23,7 +23,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
 
-  // Load cart from localStorage on mount
   useEffect(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
@@ -36,7 +35,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(newItems));
   };
 
-  // Fetch current live stock for a given variant from Supabase
   const getLiveStock = useCallback(async (variantId: string): Promise<number> => {
     const v = await db.getVariantById(variantId);
     return v?.stock ?? 0;
