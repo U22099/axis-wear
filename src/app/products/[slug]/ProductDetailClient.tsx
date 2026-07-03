@@ -1,18 +1,19 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { Product, ProductVariant } from "@/lib/database";
-import { useCart } from "@/context/CartContext";
-import Image from "next/image";
-import Link from "next/link";
+import { useState } from 'react';
+import { Product, ProductVariant } from '@/lib/types';
+import { useCart } from '@/context/CartContext';
+import Image from 'next/image';
+import Link from 'next/link';
 import {
   ChevronLeft,
-  ArrowRight,
   ShieldCheck,
   ShoppingCart,
-  Cpu,
   AlertTriangle,
-} from "lucide-react";
+} from 'lucide-react';
+import Badge from '@/components/ui/Badge';
+import Button from '@/components/ui/Button';
+import { FABRIC_SPECS } from '@/lib/constants';
 
 interface ProductDetailClientProps {
   product: Product;
@@ -24,15 +25,14 @@ export default function ProductDetailClient({
   variants,
 }: ProductDetailClientProps) {
   const { addToCart, setIsOpen } = useCart();
-  const [selectedVariant, setSelectedVariant] = useState<ProductVariant | null>(
+  const [selectedVariant, setSelectedVariant] = useState<ProductVariant | null>(null);
+  const [quantity, setQuantity] = useState(1);
+  const [feedback, setFeedback] = useState<{ success: boolean; message: string } | null>(
     null,
   );
-  const [quantity, setQuantity] = useState(1);
-  const [feedback, setFeedback] = useState<{
-    success: boolean;
-    message: string;
-  } | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const totalStockAvailable = variants.reduce((acc, v) => acc + v.stock, 0);
 
   const handleSelectSize = (variant: ProductVariant) => {
     setSelectedVariant(variant);
@@ -42,32 +42,21 @@ export default function ProductDetailClient({
 
   const handleAddToCart = async () => {
     if (!selectedVariant) {
-      setFeedback({
-        success: false,
-        message: "Please select a sizing variant.",
-      });
+      setFeedback({ success: false, message: 'Please select a sizing variant.' });
       return;
     }
-
     setIsSubmitting(true);
     const result = await addToCart(product, selectedVariant, quantity);
     setIsSubmitting(false);
-
-    setFeedback({ success: result.ok, ...result });
+    setFeedback({ success: result.ok, message: result.message });
     if (result.ok) {
-      // Auto-open cart drawer after adding
-      setTimeout(() => {
-        setIsOpen(true);
-      }, 500);
+      setTimeout(() => setIsOpen(true), 500);
     }
   };
 
-  // Total stock check
-  const totalStockAvailable = variants.reduce((acc, v) => acc + v.stock, 0);
-
   return (
     <div className="max-w-7xl mx-auto px-6 py-12 md:py-20">
-      {/* Return to Catalog Link */}
+      {/* Back link */}
       <Link
         href="/#catalog"
         className="inline-flex items-center gap-2 text-xs font-mono tracking-widest text-zinc-500 hover:text-white transition-colors mb-12 uppercase"
@@ -77,7 +66,7 @@ export default function ProductDetailClient({
       </Link>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-        {/* Left Column: Product Cinematic Image */}
+        {/* Left: product image */}
         <div className="lg:col-span-7 space-y-6">
           <div className="relative w-full h-[65vh] border border-border-blueprint bg-charcoal-900/50 overflow-hidden group blueprint-corner">
             <Image
@@ -85,9 +74,8 @@ export default function ProductDetailClient({
               alt={product.name}
               fill
               priority
-              className="object-cover transition-transform duration-700 group-hover:scale-102 filter brightness-[0.9]"
+              className="object-cover transition-transform duration-700 group-hover:scale-[1.02] brightness-[0.9]"
             />
-            {/* Corner tags for Blueprint aesthetic */}
             <div className="absolute bottom-3 left-3 text-[9px] font-mono text-zinc-500 bg-black/60 px-2 py-0.5 border border-zinc-900">
               FRAME // CORE_LOCK
             </div>
@@ -97,18 +85,16 @@ export default function ProductDetailClient({
           </div>
         </div>
 
-        {/* Right Column: Garment Specs and Add-to-cart */}
+        {/* Right: product info */}
         <div className="lg:col-span-5 flex flex-col justify-between space-y-8">
           <div className="space-y-6">
-            {/* Header Product Info */}
+            {/* Header */}
             <div className="space-y-2">
               <div className="flex items-center gap-3">
                 <span className="text-xs font-mono text-zinc-500 uppercase tracking-widest">
                   // DEPLOYMENT LEVEL: {product.category}
                 </span>
-                <span className="text-[9px] font-mono text-emerald-500 border border-emerald-950 px-2 py-0.5 bg-emerald-950/10">
-                  READY
-                </span>
+                <Badge variant="ready">READY</Badge>
               </div>
               <h2 className="text-3xl md:text-4xl font-display font-extrabold tracking-tight uppercase leading-tight">
                 {product.name}
@@ -118,23 +104,21 @@ export default function ProductDetailClient({
               </div>
             </div>
 
-            {/* Description Editorial copy */}
+            {/* Description */}
             <p className="text-sm text-zinc-400 leading-relaxed font-sans">
               {product.description}
             </p>
 
-            <div className="border-t border-border-blueprint my-6"></div>
+            <div className="border-t border-border-blueprint" />
 
-            {/* Variant Size Selector */}
+            {/* Size selector */}
             <div className="space-y-4">
               <div className="flex justify-between items-baseline">
                 <span className="text-xs font-mono text-zinc-400 uppercase tracking-wider">
                   // CHOOSE SIZE VARIANT
                 </span>
                 <span className="text-[10px] font-mono text-zinc-500">
-                  {selectedVariant
-                    ? `SKU: ${selectedVariant.sku}`
-                    : `SELECT ONE`}
+                  {selectedVariant ? `SKU: ${selectedVariant.sku}` : 'SELECT ONE'}
                 </span>
               </div>
 
@@ -147,30 +131,32 @@ export default function ProductDetailClient({
                 <div className="grid grid-cols-4 gap-3">
                   {variants.map((v) => {
                     const isSelected = selectedVariant?.id === v.id;
-                    const isOutOfStock = v.stock <= 0;
+                    const isOos = v.stock <= 0;
                     return (
                       <button
                         key={v.id}
-                        onClick={() => !isOutOfStock && handleSelectSize(v)}
-                        disabled={isOutOfStock}
-                        className={`py-3.5 text-center text-xs font-mono border transition-all relative ${
-                          isOutOfStock
-                            ? "border-zinc-950 bg-zinc-950 text-zinc-700 cursor-not-allowed"
+                        onClick={() => !isOos && handleSelectSize(v)}
+                        disabled={isOos}
+                        className={[
+                          'py-3.5 text-center text-xs font-mono border transition-all relative',
+                          isOos
+                            ? 'border-zinc-950 bg-zinc-950 text-zinc-700 cursor-not-allowed'
                             : isSelected
-                              ? "border-white bg-white text-black font-extrabold"
-                              : "border-zinc-800 text-zinc-300 hover:border-zinc-500 hover:bg-charcoal-900"
-                        }`}
+                            ? 'border-white bg-white text-black font-extrabold'
+                            : 'border-zinc-800 text-zinc-300 hover:border-zinc-500 hover:bg-charcoal-900',
+                        ].join(' ')}
                       >
                         {v.size}
-                        {/* Tiny stock indicator inside square */}
-                        {!isOutOfStock && (
+                        {!isOos && (
                           <span
-                            className={`absolute bottom-1 right-1.5 text-[8px] ${isSelected ? "text-zinc-600" : "text-zinc-500"}`}
+                            className={`absolute bottom-1 right-1.5 text-[8px] ${
+                              isSelected ? 'text-zinc-600' : 'text-zinc-500'
+                            }`}
                           >
                             {v.stock}
                           </span>
                         )}
-                        {isOutOfStock && (
+                        {isOos && (
                           <span className="absolute bottom-1 right-1 text-[8px] text-red-900">
                             OUT
                           </span>
@@ -182,7 +168,7 @@ export default function ProductDetailClient({
               )}
             </div>
 
-            {/* Selected size inventory metrics */}
+            {/* Selected variant metrics */}
             {selectedVariant && (
               <div className="p-4 border border-border-blueprint bg-charcoal-900/30 font-mono text-[11px] text-zinc-400 space-y-1">
                 <div className="flex justify-between">
@@ -193,9 +179,7 @@ export default function ProductDetailClient({
                   <span>STOCK METRIC:</span>
                   <span
                     className={
-                      selectedVariant.stock < 3
-                        ? "text-amber-500"
-                        : "text-emerald-500"
+                      selectedVariant.stock < 3 ? 'text-amber-500' : 'text-emerald-500'
                     }
                   >
                     {selectedVariant.stock} UNITS AVAILABLE
@@ -204,14 +188,15 @@ export default function ProductDetailClient({
               </div>
             )}
 
-            {/* Feedback alert notification */}
+            {/* Feedback alert */}
             {feedback && (
               <div
-                className={`p-3 border text-xs font-mono text-center flex items-center justify-center gap-2 ${
+                className={[
+                  'p-3 border text-xs font-mono text-center flex items-center justify-center gap-2',
                   feedback.success
-                    ? "bg-emerald-950/20 border-emerald-900/50 text-emerald-400"
-                    : "bg-red-950/20 border-red-900/50 text-red-400"
-                }`}
+                    ? 'bg-emerald-950/20 border-emerald-900/50 text-emerald-400'
+                    : 'bg-red-950/20 border-red-900/50 text-red-400',
+                ].join(' ')}
               >
                 {feedback.success ? (
                   <ShieldCheck className="w-4 h-4 shrink-0" />
@@ -222,7 +207,7 @@ export default function ProductDetailClient({
               </div>
             )}
 
-            {/* Quantity Selector & Add to Cart button */}
+            {/* Qty + add to cart */}
             <div className="flex gap-4 pt-4">
               {selectedVariant && selectedVariant.stock > 0 && (
                 <div className="flex items-center border border-border-blueprint bg-black shrink-0">
@@ -239,41 +224,38 @@ export default function ProductDetailClient({
                     onClick={() =>
                       setQuantity((q) => Math.min(selectedVariant.stock, q + 1))
                     }
-                    className="px-3 py-3 text-zinc-400 hover:text-white transition-colors"
                     disabled={quantity >= selectedVariant.stock}
+                    className="px-3 py-3 text-zinc-400 hover:text-white transition-colors disabled:opacity-30"
                   >
                     +
                   </button>
                 </div>
               )}
 
-              <button
+              <Button
                 onClick={handleAddToCart}
-                disabled={
-                  totalStockAvailable === 0 || !selectedVariant || isSubmitting
-                }
-                className="flex-1 py-4 bg-white text-black font-bold text-xs font-mono tracking-widest hover:bg-zinc-200 transition-colors uppercase border border-white disabled:opacity-50 disabled:bg-zinc-900 disabled:text-zinc-600 disabled:border-zinc-900 flex items-center justify-center gap-2"
+                disabled={totalStockAvailable === 0 || !selectedVariant}
+                isLoading={isSubmitting}
+                fullWidth
+                size="lg"
+                leftIcon={<ShoppingCart className="w-4 h-4" />}
               >
-                <ShoppingCart className="w-4 h-4" />
-                <span>CONNECT TO CART</span>
-              </button>
+                CONNECT TO CART
+              </Button>
             </div>
           </div>
 
-          {/* Garment details blueprint specifications block */}
+          {/* Fabric spec sheet */}
           <div className="border-t border-border-blueprint pt-6 space-y-4">
             <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest block">
               // FABRIC SPEC SHEET
             </span>
             <div className="grid grid-cols-2 gap-4 text-[10px] font-mono text-zinc-400">
-              <div className="space-y-1">
-                <div>MATERIAL // Ripstop Cordura</div>
-                <div>ZIPLOCKS // YKK AquaGuard®</div>
-              </div>
-              <div className="space-y-1">
-                <div>LINING // Recycled Poly</div>
-                <div>CERT // SHIELD-STD-04</div>
-              </div>
+              {FABRIC_SPECS.map(({ label, value }) => (
+                <div key={label}>
+                  {label} {value}
+                </div>
+              ))}
             </div>
           </div>
         </div>

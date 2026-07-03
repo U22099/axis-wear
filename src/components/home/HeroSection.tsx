@@ -3,7 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import InfiniteMarquee from './InfiniteMarquee';
+import InfiniteMarquee from '@/components/home/InfiniteMarquee';
 
 export default function HeroSection() {
   return (
@@ -89,7 +89,7 @@ export default function HeroSection() {
         <span>ALL RIGHTS RESERVED</span>
       </div>
 
-      {/* Infinite product marquee at the bottom of hero */}
+      {/* Infinite marquee */}
       <InfiniteMarquee />
     </section>
   );

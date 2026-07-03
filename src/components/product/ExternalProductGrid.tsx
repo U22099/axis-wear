@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { ExternalLink, Loader2 } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
+import PageLoader from '@/components/ui/PageLoader';
 
 interface ExternalProduct {
   id: number;
@@ -32,12 +33,7 @@ export default function ExternalProductGrid() {
   }, []);
 
   if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center py-24 space-y-4">
-        <Loader2 className="w-6 h-6 text-zinc-600 animate-spin" />
-        <span className="text-xs font-mono text-zinc-600">CONNECTING TO EXTERNAL SECTOR...</span>
-      </div>
-    );
+    return <PageLoader label="CONNECTING TO EXTERNAL SECTOR..." fullPage={false} />;
   }
 
   if (error) {
@@ -51,6 +47,7 @@ export default function ExternalProductGrid() {
 
   return (
     <div className="space-y-6">
+      {/* Live feed indicator */}
       <div className="flex items-center gap-3 pb-4 border-b border-border-blueprint">
         <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
         <span className="text-[10px] font-mono text-zinc-500 tracking-widest uppercase">
@@ -92,7 +89,9 @@ export default function ExternalProductGrid() {
               </p>
 
               <div className="flex items-center justify-between pt-3 mt-auto border-t border-border-blueprint/40">
-                <span className="text-sm font-mono font-bold text-white">${product.price.toFixed(2)}</span>
+                <span className="text-sm font-mono font-bold text-white">
+                  ${product.price.toFixed(2)}
+                </span>
                 <a
                   href="https://fakestoreapi.com"
                   target="_blank"

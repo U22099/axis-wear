@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Syne, JetBrains_Mono } from "next/font/google";
 import { AuthProvider } from "@/context/AuthContext";
 import { CartProvider } from "@/context/CartContext";
-import SmoothScroll from "@/components/SmoothScroll";
+import SmoothScroll from "@/components/layout/SmoothScroll";
 import "./globals.css";
 
 const geistSans = Geist({

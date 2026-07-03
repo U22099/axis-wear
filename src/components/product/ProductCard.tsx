@@ -1,15 +1,16 @@
-"use client";
+'use client';
 
-import React from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { ArrowUpRight } from "lucide-react";
-import { Product, ProductVariant } from "@/lib/types";
+import React from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { ArrowUpRight } from 'lucide-react';
+import { Product, ProductVariant } from '@/lib/types';
+import Badge from '@/components/ui/Badge';
 
 interface ProductCardProps {
   product: Product;
   variants: ProductVariant[];
-  wide?: boolean; // span 2 columns for featured items
+  wide?: boolean;
 }
 
 export default function ProductCard({
@@ -19,58 +20,60 @@ export default function ProductCard({
 }: ProductCardProps) {
   const totalStock = variants.reduce((sum, v) => sum + v.stock, 0);
   const availableSizes = variants.filter((v) => v.stock > 0).map((v) => v.size);
+  const isOutOfStock = totalStock === 0;
+  const isLowStock = totalStock > 0 && totalStock <= 5;
 
   return (
     <Link
       href={`/products/${product.slug}`}
-      className={`group relative flex flex-col border border-border-blueprint bg-charcoal-900/30
-        hover:bg-charcoal-900 hover:border-zinc-700 transition-all duration-500 ${wide ? "md:flex-row" : ""} `}
+      className={[
+        'group relative flex flex-col border border-border-blueprint bg-charcoal-900/30',
+        'hover:bg-charcoal-900 hover:border-zinc-700 transition-all duration-500',
+        wide ? 'md:flex-row' : '',
+      ]
+        .filter(Boolean)
+        .join(' ')}
     >
       {/* Product image */}
       <div
-        className={`relative overflow-hidden bg-zinc-950 shrink-0
-        ${wide ? "w-full md:w-[55%] h-125" : "w-full h-80"}`}
+        className={[
+          'relative overflow-hidden bg-zinc-950 shrink-0',
+          wide ? 'w-full md:w-[55%] h-125' : 'w-full h-80',
+        ].join(' ')}
       >
         <Image
           src={product.image_url}
           alt={product.name}
           fill
-          sizes={
-            wide
-              ? "(max-width:768px) 100vw, 55vw"
-              : "(max-width:768px) 100vw, 33vw"
-          }
+          sizes={wide ? '(max-width:768px) 100vw, 55vw' : '(max-width:768px) 100vw, 33vw'}
           className="object-cover brightness-90 group-hover:brightness-100 group-hover:scale-[1.03] transition-all duration-700"
         />
-        {/* Status badge */}
-        {totalStock === 0 && (
+
+        {/* Stock status overlay / badge */}
+        {isOutOfStock && (
           <div className="absolute inset-0 bg-black/75 flex items-center justify-center">
-            <span className="text-[11px] font-mono text-red-500 tracking-widest border border-red-900/60 px-3 py-1.5">
-              SOLD OUT
-            </span>
+            <Badge variant="sold-out">Sold Out</Badge>
           </div>
         )}
-        {totalStock > 0 && totalStock <= 5 && (
-          <div className="absolute top-3 left-3 bg-amber-950/80 border border-amber-800/60 px-2 py-0.5 text-[9px] font-mono text-amber-400 tracking-wider">
-            LOW STOCK
+        {isLowStock && (
+          <div className="absolute top-3 left-3">
+            <Badge variant="low-stock">Low Stock</Badge>
           </div>
         )}
       </div>
 
       {/* Info */}
-      <div
-        className={`flex flex-col justify-between p-5 ${wide ? "flex-1" : ""}`}
-      >
+      <div className={['flex flex-col justify-between p-5', wide ? 'flex-1' : ''].join(' ')}>
         <div className="space-y-2">
           <div className="flex justify-between items-center text-[10px] font-mono text-zinc-600">
             <span>// {product.category.toUpperCase()}</span>
-            <span>
-              {totalStock > 0 ? `${totalStock} units` : "Out of stock"}
-            </span>
+            <span>{totalStock > 0 ? `${totalStock} units` : 'Out of stock'}</span>
           </div>
+
           <h3 className="text-base font-display font-bold uppercase tracking-tight text-white group-hover:text-zinc-200 transition-colors line-clamp-2">
             {product.name}
           </h3>
+
           {wide && (
             <p className="text-xs text-zinc-400 leading-relaxed line-clamp-3 font-sans mt-1">
               {product.description}

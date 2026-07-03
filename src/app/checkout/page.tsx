@@ -1,29 +1,23 @@
-"use client";
+'use client';
 
-import { Suspense } from "react";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-
+import { Suspense } from 'react';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
+import CartDrawer from '@/components/layout/CartDrawer';
+import CheckoutContent from '@/components/CheckoutContent';
+import PageLoader from '@/components/ui/PageLoader';
 
 export default function CheckoutPage() {
   return (
     <>
       <Header />
+      <CartDrawer />
 
-      <Suspense fallback={<PageLoader />}>
-        <CheckoutPage />
+      <Suspense fallback={<PageLoader label="LOADING SECURE SEGMENT DATA..." />}>
+        <CheckoutContent />
       </Suspense>
 
       <Footer />
     </>
-  );
-}
-
-function PageLoader() {
-  return (
-    <div className="flex flex-col items-center justify-center min-h-[70vh] text-xs font-mono text-zinc-500 gap-3">
-      <div className="w-6 h-6 border-2 border-zinc-700 border-t-white animate-spin"></div>
-      <span>LOADING SECURE SEGMENT DATA...</span>
-    </div>
   );
 }

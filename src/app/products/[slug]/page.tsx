@@ -1,10 +1,10 @@
-export const unstable_instant = { prefetch: 'static' };
 
 import { Suspense } from 'react';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import CartDrawer from '@/components/CartDrawer';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
+import CartDrawer from '@/components/layout/CartDrawer';
 import ProductInfo from './ProductInfo';
+import PageLoader from '@/components/ui/PageLoader';
 
 export default async function ProductPage({
   params,
@@ -16,7 +16,7 @@ export default async function ProductPage({
       <Header />
       <CartDrawer />
       <main className="grow bg-black">
-        <Suspense fallback={<ProductLoader />}>
+        <Suspense fallback={<PageLoader label="DECRYPTING SECURE SEGMENT DATA..." />}>
           {params.then(({ slug }) => (
             <ProductInfo slug={slug} />
           ))}
@@ -24,14 +24,5 @@ export default async function ProductPage({
       </main>
       <Footer />
     </>
-  );
-}
-
-function ProductLoader() {
-  return (
-    <div className="flex flex-col items-center justify-center min-h-[70vh] text-xs font-mono text-zinc-500 gap-3">
-      <div className="w-6 h-6 border-2 border-zinc-700 border-t-white animate-spin"></div>
-      <span>DECRYPTING SECURE SEGMENT DATA...</span>
-    </div>
   );
 }

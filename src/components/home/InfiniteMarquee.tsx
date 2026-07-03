@@ -1,23 +1,12 @@
 'use client';
 
-const MARQUEE_ITEMS = [
-  'TECHNICAL SHELL',
-  'MODULAR DOWN',
-  'TACTICAL ANORAK',
-  'UTILITY VEST',
-  'GORE-TEX SHELL',
-  'GRID FLEECE',
-  'REFLECTIVE JACKET',
-  'CARGO COMBAT',
-  'INSULATED VEST',
-  'HEAVYWEIGHT HOODIE',
-];
+import { MARQUEE_ITEMS } from '@/lib/constants';
 
 function MarqueeTrack() {
   return (
-    <div className="flex shrink-0 items-center gap-0 animate-marquee">
+    <div className="flex shrink-0 items-center animate-marquee">
       {MARQUEE_ITEMS.map((item, i) => (
-        <span key={i} className="flex items-center gap-0">
+        <span key={i} className="flex items-center">
           <span className="whitespace-nowrap px-6 text-xs font-mono tracking-[0.35em] text-zinc-500 uppercase">
             {item}
           </span>
